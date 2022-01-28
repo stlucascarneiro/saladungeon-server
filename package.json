@@ -1,0 +1,36 @@
+{
+  "name": "sala-dungeon-server",
+  "description": "Tabelas e geradores aleatórios para RPG",
+  "version": "1.0.0",
+  "author": "Lucas Carneiro",
+  "private": true,
+  "license": "MIT",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node-dev --transpile-only --ignore-watch node_modules ./src/index.ts"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seeds/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.8.1",
+    "apollo-server": "^3.5.0",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "graphql": "^15.7.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "nexus": "^1.1.0",
+    "redis": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node": "^17.0.10",
+    "concurrently": "^7.0.0",
+    "prisma": "^3.8.1",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.5"
+  }
+}

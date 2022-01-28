@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique @db.VarChar(24)
+  email     String   @unique @db.VarChar(320)
+  password  String   @db.VarChar(64)
+  about     String?
+  contact   String?
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @updatedAt @db.Timestamp(0)
+
+  Post     Post[]
+  Favorite Favorite[]
+  Report   Report[]
+  Avatar   Avatar[]
+  @@map("users")
+}
+
+model Avatar {
+  id              Int    @id @default(autoincrement())
+  user            User   @relation(fields: [userId], references: [id])
+  userId          Int
+  background      String @db.VarChar(6)
+  topType         Int    @db.SmallInt
+  accessoriesType Int    @db.SmallInt
+  hairColor       Int    @db.SmallInt
+  facialHairType  Int    @db.SmallInt
+  facialHairColor Int    @db.SmallInt
+  clotheType      Int    @db.SmallInt
+  eyeType         Int    @db.SmallInt
+  eyebrowType     Int    @db.SmallInt
+  mouthType       Int    @db.SmallInt
+  skinColor       Int    @db.SmallInt
+
+  @@map("avatars")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String   @unique @db.VarChar(420)
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  genre     Int      @db.SmallInt
+  category  Int      @db.SmallInt
+  tags      Int[]
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+
+  Favorite Favorite[]
+  Report   Report[]
+  @@map("posts")
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+
+  @@map("favorites")
+}
+
+model Report {
+  id        Int      @id @default(autoincrement())
+  type      String   @db.VarChar(32)
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+
+  @@map("reports")
+}
